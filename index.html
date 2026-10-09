@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="theme-color" content="#171b22" />
+<title>PicCat 图片转换猫</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="shell">
+<header class="topbar">
+  <div class="brand"><div class="brand-mark"><svg viewBox="0 0 64 64"><path d="M13 27 18 8l13 11q7-2 13 0L51 8l4 19q5 6 5 14 0 18-28 18T4 41q0-8 9-14Z" fill="#f4cb58"/><path d="m18 10 3 14 9-5Z" fill="#f29a91"/><path d="m50 10-3 14-9-5Z" fill="#f29a91"/><circle cx="24" cy="39" r="5" fill="#171b22"/><circle cx="42" cy="39" r="5" fill="#171b22"/><path d="M29 48q3-3 7 0-4 4-7 0Z" fill="#f29a91"/></svg></div><div><b>PicCat</b><span>图片转换猫 · 喵造实验室 010 · v0.1</span></div></div>
+  <div class="privacy">本地处理 · 图片不上传</div>
+</header>
+
+<main>
+<section class="hero">
+  <div>
+    <span class="eyebrow">LOCAL IMAGE TOOLBOX</span>
+    <h1>WEBP 又打不开？<br><em>交给猫。</em></h1>
+    <p>JPG / PNG / WEBP 批量互转，顺手改尺寸、锁比例、调质量。原图默认不覆盖，转换结果放进你选择的输出目录。</p>
+    <div class="hero-actions"><button id="chooseBtn" class="primary">选择图片</button><button id="clearBtn" class="ghost">清空列表</button></div>
+  </div>
+  <div class="mascot-card"><div class="cat-face">😼</div><div class="swap">JPG ⇄ PNG<br>WEBP → PNG</div><p>“好了，这次 Windows 应该认识它了。”</p></div>
+</section>
+
+<section class="panel">
+  <div class="section-head"><div><small>STEP 01</small><h2>图片队列</h2></div><span id="queueBadge">0 张</span></div>
+  <div class="drop-zone" id="dropZone"><div>🖼️</div><b>选择图片或把图片拖到这里</b><span>支持 JPG / PNG / WEBP / AVIF / TIFF / GIF（静态首帧）</span></div>
+  <div id="fileList" class="file-list"></div>
+</section>
+
+<section class="workspace" id="workspace" hidden>
+  <section class="panel settings">
+    <div class="section-head"><div><small>STEP 02</small><h2>输出设置</h2></div><span>批量应用</span></div>
+    <div class="form-grid">
+      <label>输出格式<select id="format"><option value="png">PNG</option><option value="jpg">JPG</option><option value="webp">WEBP</option></select></label>
+      <label>质量 <span id="qualityValue">88</span><input id="quality" type="range" min="40" max="100" value="88"></label>
+      <label>尺寸模式<select id="resizeMode"><option value="original">保持原尺寸</option><option value="percent">按百分比</option><option value="longEdge">最长边</option><option value="width">固定宽度</option><option value="height">固定高度</option><option value="exact">指定宽高</option></select></label>
+      <label id="percentWrap">百分比<input id="percent" type="number" value="100" min="1" max="1000"></label>
+      <label id="longEdgeWrap">最长边(px)<input id="longEdge" type="number" value="1920" min="1"></label>
+      <label id="widthWrap">宽度(px)<input id="width" type="number" value="1080" min="1"></label>
+      <label id="heightWrap">高度(px)<input id="height" type="number" value="1440" min="1"></label>
+      <label class="check"><input id="keepAspect" type="checkbox" checked> 锁定比例 / 不拉伸</label>
+      <label class="check"><input id="withoutEnlargement" type="checkbox"> 不放大小图</label>
+      <label id="jpgBgWrap">PNG → JPG 背景<input id="jpgBackground" type="color" value="#ffffff"></label>
+      <label>文件名后缀<input id="suffix" placeholder="例如：converted（可留空）"></label>
+    </div>
+    <div class="preset-title">常用尺寸</div>
+    <div class="presets">
+      <button data-preset="xiaohongshu">小红书 3:4<br><small>1080×1440</small></button>
+      <button data-preset="avatar">头像 1:1<br><small>1080×1080</small></button>
+      <button data-preset="video">16:9 封面<br><small>1920×1080</small></button>
+      <button data-preset="long1920">最长边<br><small>1920px</small></button>
+      <button data-preset="half">缩小一半<br><small>50%</small></button>
+    </div>
+  </section>
+
+  <section class="panel output-panel">
+    <div class="section-head"><div><small>STEP 03</small><h2>输出与转换</h2></div><span id="outputBadge">未选择</span></div>
+    <button class="secondary" id="outputBtn">选择输出文件夹</button>
+    <div class="output-path" id="outputPath">默认建议：选择一个“PicCat_转换结果”文件夹</div>
+    <div class="summary" id="summary"></div>
+    <button class="primary wide" id="convertBtn">开始批量转换</button>
+    <div class="progress-wrap" id="progressWrap" hidden><div class="progress"><i id="progressBar"></i></div><span id="progressText">准备中…</span></div>
+    <div id="resultList" class="result-list"></div>
+  </section>
+</section>
+</main>
+<footer><b>PicCat 图片转换猫</b><span>格式不听话？交给猫。</span></footer>
+</div>
+<div class="toast" id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>
