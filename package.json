@@ -1,0 +1,56 @@
+{
+  "name": "piccat-desktop",
+  "version": "0.1.0",
+  "description": "PicCat 图片转换猫 - local-first image format converter and resizer",
+  "author": "MeowBuild Lab",
+  "license": "MIT",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test tests/core.test.cjs",
+    "check": "node --check app.js && node --check electron/main.cjs && node --check electron/preload.cjs && node --check electron/piccat-core.cjs",
+    "dist:win": "npm run build:icon && electron-builder --win nsis --publish never",
+    "build:icon": "node scripts/build-icon.cjs"
+  },
+  "dependencies": {
+    "sharp": "^0.34.4"
+  },
+  "devDependencies": {
+    "electron": "^38.0.0",
+    "electron-builder": "^26.0.12",
+    "png-to-ico": "^3.0.1"
+  },
+  "build": {
+    "appId": "com.meowbuild.piccat",
+    "productName": "PicCat 图片转换猫",
+    "asar": true,
+    "asarUnpack": ["node_modules/sharp/**/*", "node_modules/@img/**/*"],
+    "files": [
+      "index.html",
+      "styles.css",
+      "app.js",
+      "electron/**/*",
+      "README.md",
+      "build/**/*",
+      "node_modules/sharp/**/*",
+      "node_modules/@img/**/*"
+    ],
+    "directories": { "output": "dist" },
+    "win": {
+      "target": [{ "target": "nsis", "arch": ["x64"] }],
+      "forceCodeSigning": false,
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "PicCat 图片转换猫",
+      "deleteAppDataOnUninstall": false,
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "installerHeaderIcon": "build/icon.ico"
+    }
+  }
+}
